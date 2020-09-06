@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="480.0" prefWidth="680.0" style="-fx-background-color: #DFE3EE; -fx-border-color: #221F1F; -fx-border-width: 5;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.MainController">
+    <top>
+        <GridPane prefHeight="60.0" prefWidth="596.0" BorderPane.alignment="CENTER">
+            <columnConstraints>
+                <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" minWidth="90.0" prefWidth="112.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="400.0" prefWidth="449.3999755859375" />
+                <ColumnConstraints fillWidth="false" halignment="RIGHT" hgrow="ALWAYS" minWidth="103.0" prefWidth="127.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
+            </rowConstraints>
+            <children>
+                <Label fx:id="sdmHeader" alignment="CENTER" contentDisplay="TEXT_ONLY" maxHeight="-Infinity" prefHeight="51.0" prefWidth="521.0" text="SUPER DUPER MARKET" textAlignment="CENTER" textFill="#4c86c3e8" textOverrun="CENTER_ELLIPSIS" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER">
+                    <font>
+                        <Font name="Berlin Sans FB Demi Bold" size="31.0" />
+                    </font>
+                    <GridPane.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
+                    </GridPane.margin>
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <effect>
+                        <InnerShadow choke="0.55" height="15.0" radius="5.75" width="10.0" />
+                    </effect>
+                    <padding>
+                        <Insets bottom="15.0" left="50.0" right="50.0" />
+                    </padding>
+                </Label>
+            </children>
+        </GridPane>
+    </top>
+    <bottom>
+        <GridPane prefHeight="40.0" prefWidth="679.0" BorderPane.alignment="TOP_RIGHT">
+            <columnConstraints>
+                <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" maxWidth="194.0" minWidth="10.0" prefWidth="113.4" />
+                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="436.20000000000005" />
+                <ColumnConstraints fillWidth="false" halignment="RIGHT" hgrow="ALWAYS" maxWidth="136.00004882812505" minWidth="10.0" prefWidth="123.79998779296875" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <HBox alignment="CENTER" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="40.0" prefWidth="430.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER">
+                    <children>
+                        <Button fx:id="loadRepoButton" contentDisplay="RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#loadSDMData" prefHeight="20.0" prefWidth="130.0" text="Load Super Duper Data" textFill="#1b476d">
+                            <font>
+                                <Font size="9.0" />
+                            </font>
+                            <HBox.margin>
+                                <Insets bottom="5.0" right="5.0" top="5.0" />
+                            </HBox.margin>
+                            <graphic>
+                                <ImageView fitHeight="15.0" fitWidth="15.0">
+                                    <image>
+                                        <Image url="@Images/LoadRepo.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                    </children>
+                    <GridPane.margin>
+                        <Insets />
+                    </GridPane.margin>
+                </HBox>
+                <VBox prefHeight="40.0" prefWidth="118.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER" />
+            </children>
+            <BorderPane.margin>
+                <Insets />
+            </BorderPane.margin>
+        </GridPane>
+    </bottom>
+    <right>
+        <VBox fillWidth="false" maxWidth="-Infinity" prefHeight="409.0" prefWidth="124.0" BorderPane.alignment="TOP_CENTER">
+            <BorderPane.margin>
+                <Insets />
+            </BorderPane.margin>
+        </VBox>
+    </right>
+    <center>
+        <SplitPane fx:id="mainTextWindow" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="380.0" prefWidth="430.0" style="-fx-background-color: #3B5998; -fx-background-radius: 10;" BorderPane.alignment="CENTER">
+            <items>
+                <AnchorPane minWidth="0.0" prefHeight="330.0" prefWidth="413.0">
+                    <children>
+                        <Pane fx:id="textPane" layoutX="2.0" layoutY="-1.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="330.0" prefWidth="445.0" style="-fx-background-color: #8B9DC3; -fx-background-radius: 7;" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="3.0" />
+                    </children>
+                </AnchorPane>
+            </items>
+        </SplitPane>
+    </center>
+    <padding>
+        <Insets top="10.0" />
+    </padding>
+    <left>
+        <Pane fx:id="treeViewPane" prefHeight="200.0" prefWidth="118.0" style="-fx-border-color: #3B5998; -fx-border-width: 2; -fx-border-radius: 5;" BorderPane.alignment="CENTER">
+            <children>
+                <ScrollPane fx:id="treeScrollPane" layoutX="4.0" layoutY="45.0" prefHeight="329.0" prefWidth="110.0">
+                    <content>
+                        <AnchorPane fx:id="treeAnchorPane" focusTraversable="true" prefHeight="326.0" prefWidth="108.0" style="-fx-background-color: #DFE3EE;">
+                     <children>
+                            <Button fx:id="showStatusButton" contentDisplay="RIGHT" layoutX="12.0" layoutY="23.0" mnemonicParsing="false" onAction="#showMarkets" prefHeight="25.0" prefWidth="85.0" text="Show stores" textFill="#1b476d">
+                                <font>
+                                    <Font size="10.0" />
+                                </font>
+                                <graphic>
+                                    <ImageView fitHeight="12.0" fitWidth="12.0">
+                                        <image>
+                                            <Image url="@Images/ShowStatus.png" />
+                                        </image>
+                                    </ImageView>
+                                </graphic>
+                            </Button>
+                        <Button fx:id="showStatusButton1" contentDisplay="RIGHT" layoutX="12.0" layoutY="63.0" mnemonicParsing="false" onAction="#showItems" prefHeight="25.0" prefWidth="85.0" text="Show items" textFill="#1b476d">
+                           <font>
+                              <Font size="10.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="12.0" fitWidth="12.0">
+                                 <image>
+                                    <Image url="@Images/ShowStatus.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button fx:id="showStatusButton11" contentDisplay="RIGHT" layoutX="12.0" layoutY="100.0" mnemonicParsing="false" onAction="#placeOrder" prefHeight="25.0" prefWidth="85.0" text="Place order" textFill="#1b476d">
+                           <font>
+                              <Font size="10.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="12.0" fitWidth="12.0">
+                                 <image>
+                                    <Image url="@Images/ShowStatus.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button fx:id="showStatusButton2" contentDisplay="RIGHT" layoutX="12.0" layoutY="138.0" mnemonicParsing="false" onAction="#showMarkets" prefHeight="23.0" prefWidth="85.0" text="Show order history" textFill="#1b476d">
+                           <font>
+                              <Font size="10.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="12.0" fitWidth="12.0">
+                                 <image>
+                                    <Image url="@Images/ShowStatus.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button fx:id="showStatusButton21" contentDisplay="RIGHT" layoutX="12.0" layoutY="182.0" mnemonicParsing="false" onAction="#showMaps" prefHeight="23.0" prefWidth="85.0" text="Show maps" textFill="#1b476d">
+                           <font>
+                              <Font size="10.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="12.0" fitWidth="12.0">
+                                 <image>
+                                    <Image url="@Images/ShowStatus.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children></AnchorPane>
+                    </content>
+                </ScrollPane>
+                <Text fill="#052f59" layoutX="7.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Show Data">
+                    <font>
+                        <Font name="System Bold" size="17.0" />
+                    </font>
+                    <effect>
+                        <Reflection fraction="0.55" topOpacity="0.33" />
+                    </effect>
+                </Text>
+            </children>
+        </Pane>
+    </left>
+</BorderPane>
