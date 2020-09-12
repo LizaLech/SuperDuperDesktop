@@ -136,10 +136,10 @@ public class PlaceOrderController {
 
                                         OrderItem oi = storeHandler.GetOrderItemByItemId(selectStore.getValue(), item.serialNumber);
                                         if (oi!=null){
-                                            itemTable.add(new ItemTable(item.serialNumber,item.name,oi.price,item.purchaseType));
+                                            itemTable.add(new ItemTable(item.serialNumber,item.name,oi.price,item.purchaseType.toString()));
 
                                         }else{
-                                            itemTable.add(new ItemTable(item.serialNumber,item.name, null,item.purchaseType));
+                                            itemTable.add(new ItemTable(item.serialNumber,item.name, null,item.purchaseType.toString()));
 
                                         }
                                     }
