@@ -7,8 +7,7 @@ public class Offer {
         this.Quantity = Quantity;
         this.ForAdditional = ForAdditional;
     }
-
-    int ItemID;
-    double Quantity;
-    double ForAdditional;
+    public int ItemID;
+    public double Quantity;
+    public double ForAdditional;
 }

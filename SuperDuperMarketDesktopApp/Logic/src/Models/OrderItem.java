@@ -13,7 +13,7 @@ public class OrderItem {
         this.quantityObject= new QuantityObject();
     }
 
-    public OrderItem(int itemId, int price, int storeId) {
+    public OrderItem(int itemId, double price, int storeId) {
         this.itemId= itemId;
         this.storeId= storeId;
         this.price= price;

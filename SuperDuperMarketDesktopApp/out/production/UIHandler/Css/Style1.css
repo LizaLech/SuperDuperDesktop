@@ -80,4 +80,10 @@
     -fx-background-color:  #3B5998;
     -fx-border-radius: 10;
 }
+.onSale-label {
+    -fx-text-fill: #eaece5;
+    -fx-font-weight: bold;
+    -fx-font-size: 10px;
+    -fx-background-color:  #FF0000;
 
+}

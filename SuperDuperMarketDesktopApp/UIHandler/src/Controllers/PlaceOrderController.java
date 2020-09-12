@@ -1,6 +1,9 @@
 package Controllers;
 
 import Enums.OrderType;
+import Enums.PurchaseType;
+import Handlers.OrderDetailsHandler;
+import Handlers.OrderManager;
 import Handlers.StoreHandler;
 import Models.*;
 import UIUtils.CommonUsed;
@@ -38,10 +41,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.EnumSet;
-import java.util.List;
+import java.util.*;
 
 import static Enums.OrderType.*;
 
@@ -56,7 +56,9 @@ public class PlaceOrderController {
     private TableView<ItemTable> itemsTable = new TableView<ItemTable> ();
     private StoreHandler storeHandler = new StoreHandler();
     private Button continueButton = new Button("Continue");
-    private SaleController saleController = new SaleController();
+
+    private OrderManager orderManager = new OrderManager();
+    OrderDetailsHandler orderDetailsHandler = new OrderDetailsHandler();
 
     void placeOrder(SuperDuperMarket superDuperMarket, Pane textPane) {
         selectStore.setPromptText("Select Store");
@@ -134,10 +136,10 @@ public class PlaceOrderController {
 
                                         OrderItem oi = storeHandler.GetOrderItemByItemId(selectStore.getValue(), item.serialNumber);
                                         if (oi!=null){
-                                            itemTable.add(new ItemTable(item.serialNumber,item.name,oi.price));
+                                            itemTable.add(new ItemTable(item.serialNumber,item.name,oi.price,item.purchaseType));
 
                                         }else{
-                                            itemTable.add(new ItemTable(item.serialNumber,item.name, null));
+                                            itemTable.add(new ItemTable(item.serialNumber,item.name, null,item.purchaseType));
 
                                         }
                                     }
@@ -153,13 +155,33 @@ public class PlaceOrderController {
                                         @Override
                                         public void handle(Event event) {
                                             ItemTable selected = itemsTable.getSelectionModel().getSelectedItem();
-                                            if (selected.price==null){
+                                            if (selected.price == null){
                                                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "The store you selected does not sell this item", ButtonType.OK);
+                                                alert.showAndWait();
                                             }
                                             else{
-                                                String test3= JOptionPane.showInputDialog("Please insert the required quantity");
-                                                selected.quantity = test3;
-                                                itemsTable.refresh();
+                                                Dialog dialog = new TextInputDialog();
+                                                //dialog.setTitle(titleTxt);
+                                                dialog.setHeaderText("Please insert the required quantity");
+/*
+
+                                                ButtonType buttonTypeOk = new ButtonType("Okay", ButtonBar.ButtonData.OK_DONE);
+                                                dialog.getDialogPane().getButtonTypes().add(buttonTypeOk);
+*/
+
+                                                Optional<String> result = dialog.showAndWait();
+                                                if (result.isPresent()) {
+                                                    selected.quantity = result.get();
+                                                    itemsTable.refresh();
+                                                    OrderItem oi = new OrderItem(selected.serialNumber, selected.price, store[0].serialNumber);
+                                                    QuantityObject qo = null;
+                                                    if (selected.purchaseType == PurchaseType.QUANTITY){
+                                                        qo = new QuantityObject(Integer.parseInt(selected.quantity),0);
+                                                    }
+                                                    else {
+                                                        qo = new QuantityObject(0, Double.parseDouble(selected.quantity));
+                                                    }
+                                                    orderDetailsHandler.updateOrderDetails(superDuperMarket, order, oi, store[0], selectedCustomer[0].location, orderDate[0], qo);                                                }
                                             }
                                         }
                                     });
@@ -182,11 +204,29 @@ public class PlaceOrderController {
                         @Override
                         public void handle(Event event) {
                             try {
-                                List<Store> stores = new ArrayList<>();
-                                stores.add(store[0]);
-                                saleController.showSales(stores);
+                                List<Discount> sales = orderManager.checkForSales(superDuperMarket,order);
+                                if (sales.size() > 0){
+
+                                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Resources/SaleScreen.fxml"));
+                                    //fxmlLoader.setRoot(this);
+                                    //fxmlLoader.setController(this);
 
 
+                                    try {
+
+                                        //Creating a scene object
+                                        Scene scene = new Scene(fxmlLoader.load());
+                                        Stage stage = new Stage();
+                                        stage.setTitle("Anchor Pane Example");
+                                        stage.setScene(scene);
+                                        stage.show();
+                                    } catch (IOException exception) {
+                                        throw new RuntimeException(exception);
+                                    }
+
+                                    SaleController sl = fxmlLoader.getController();
+                                    sl.showSales(superDuperMarket,sales);
+                                }
                             }
                             catch (Exception e){
                                String msg = e.getMessage();

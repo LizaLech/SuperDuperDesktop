@@ -2,6 +2,7 @@ package Handlers;
 
 import Models.*;
 import generatedClasses.SuperDuperMarketDescriptor;
+import javafx.scene.control.Button;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -10,8 +11,13 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.File;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @XmlRootElement
 public class OrderManager {
@@ -74,12 +80,32 @@ public class OrderManager {
         ordersMap.put(order.id, order);
     }
 
+    public List<Discount> checkForSales(SuperDuperMarket superDuperMarket, Order order) {
 
+        List<Discount> sales = new ArrayList<>();
+        for (int storeID:order.storesID) {
+            Store store = storeHandler.getStoreById(superDuperMarket, storeID);
+            for (Discount discount:store.Sales) {
+                List<OrderItem> itemsInSale = order.orderItems.stream().filter(item->item.itemId == discount.ItemID).collect(Collectors.toList());
+                if (itemsInSale != null){
+                    OrderItem itemOnSale = itemsInSale.get(0);
+                    double quantity = itemOnSale.quantityObject.integerQuantity > 0 ? itemOnSale.quantityObject.integerQuantity: itemOnSale.quantityObject.KGQuantity;
+                    if (quantity >= discount.Quantity){
+                        Discount disc = CloneDiscount(discount);
+                        disc.numOfOffers = (int)(quantity/discount.Quantity);
+                        sales.add(disc);
+                    }
 
+                }
+            }
+        }
+        return sales;
+    }
 
+    public Discount CloneDiscount(Discount discount) {
 
-
-
+        return new Discount(discount.Name,discount.ItemID,discount.Quantity,discount.OperatorType,discount.Offers);
+    }
 
 
 }
