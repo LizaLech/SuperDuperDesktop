@@ -21,7 +21,7 @@ public class ItemTable {
 
     //public int soldItemsNumber;
 
-
+//
     public String getName() {
         return name;
     }
